@@ -24,7 +24,7 @@ Team Mates:
 1. What is the link of the fork Net&Sys Assignment in your repository. ***(1 mark)*** <br>
 https://github.com/hafizizzuddin1/NatSysProject?tab=readme-ov-file
 2. How many files and folders are in this repository. ***(1 mark)*** <br>
-**1 Folder and 7 Files**
+__One folder images that consist of 6 files in it and one file which is readme file.__
 
 
 ## Exploring github codespaces
@@ -497,9 +497,15 @@ docker run --detach -v /workspaces/OSProject/webpage:/usr/local/apache2/htdocs/ 
 
 ***Questions:***
 
-1. What is the permission of folder /usr/local/apache/htdocs and what user and group owns the folder? . ***(2 mark)*** __Fill answer here__.
-2. What port is the apache web server running. ***(1 mark)***
-3. What port is open for http protocol on the host machine? ***(1 mark)***
+1. What is the permission of folder /usr/local/apache/htdocs and what user and group owns the folder? . ***(2 mark)*** <br>
+```bash
+@hafizizzuddin1 ➜ /workspaces/NatSysProject (main) $ ls -ld /workspaces/OSProject/webpage
+drwxr-xr-x+ 2 root root 4096 Jun 18 15:51 /workspaces/OSProject/webpage
+```
+2. What port is the apache web server running. ***(1 mark)*** <br>
+__The Apache web server is running on port 80 inside the container.__
+3. What port is open for http protocol on the host machine? ***(1 mark)*** <br>
+__The open port for HTTP protocol on the host machine is 8080.__docker network create bluenet
 
 ## Create SUB Networks
 
@@ -518,12 +524,30 @@ docker run -itd --net rednet --name c2 busybox sh
 ```
 ***Questions:***
 
-1. Describe what is busybox and what is command switch **--name** is for? . ***(2 mark)*** __Fill answer here__.
-2. Explore the network using the command ```docker network ls```, show the output of your terminal. ***(1 mark)***
-3. Using ```docker inspect c1``` and ```docker inspect c2``` inscpect the two network. What is the gateway of bluenet and rednet.? ***(1 mark)***
-4. What is the network address for the running container c1 and c2.
-5. Using the command ```docker exec c1 ping c2```, which basically issue a ping from container c1 to c2. Are you able to ping? Show your output . ***(1 mark)***
-
+1. Describe what is busybox and what is command switch **--name** is for? . ***(2 mark)*** <br>
+__BusyBox is a software suite that provides many common Unix utilities in a single small executable. The --name switch assigns a custom name to the container.__
+2. Explore the network using the command ```docker network ls```, show the output of your terminal. ***(1 mark)*** <br>
+```bash
+@hafizizzuddin1 ➜ /workspaces/NatSysProject (main) $ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+efb75d42fcc4   bluenet   bridge    local
+0c5d4e80c943   bridge    bridge    local
+75967288e570   host      host      local
+1f74ae99fdb9   none      null      local
+312c8e301be7   rednet    bridge    local
+```
+3. Using ```docker inspect c1``` and ```docker inspect c2``` inscpect the two network. What is the gateway of bluenet and rednet.? ***(1 mark)*** <br>
+__Bluenet: 172.18.0.1__ <br>
+__Rednet: 172.19.0.1__
+4. What is the network address for the running container c1 and c2.<br>
+__C1: 172.18.0.2__<br>
+__C2: 172.19.0.2__
+5. Using the command ```docker exec c1 ping c2```, which basically issue a ping from container c1 to c2. Are you able to ping?<Show your output . ***(1 mark)*** <br>
+__No__ 
+```bash
+@hafizizzuddin1 ➜ /workspaces/NatSysProject (main) $ docker exec c1 ping c2
+ping: bad address 'c2'
+```
 ## Bridging two SUB Networks
 1. Let's try this again by creating a network to bridge the two containers in the two subnetworks
 ```
@@ -532,7 +556,20 @@ docker network connect bridgenet c1
 docker network connect bridgenet c2
 docker exec c1 ping c2
 ```
-
+```bash
+PING c2 (172.20.0.3): 56 data bytes
+64 bytes from 172.20.0.3: seq=0 ttl=64 time=0.522 ms
+64 bytes from 172.20.0.3: seq=1 ttl=64 time=0.073 ms
+64 bytes from 172.20.0.3: seq=2 ttl=64 time=0.056 ms
+64 bytes from 172.20.0.3: seq=3 ttl=64 time=0.065 ms
+64 bytes from 172.20.0.3: seq=4 ttl=64 time=0.084 ms
+64 bytes from 172.20.0.3: seq=5 ttl=64 time=0.076 ms
+64 bytes from 172.20.0.3: seq=6 ttl=64 time=0.094 ms
+64 bytes from 172.20.0.3: seq=7 ttl=64 time=0.079 ms
+64 bytes from 172.20.0.3: seq=8 ttl=64 time=0.106 ms
+64 bytes from 172.20.0.3: seq=9 ttl=64 time=0.073 ms
+64 bytes from 172.20.0.3: seq=10 ttl=64 time=0.072 ms
+```
 ## What to submit
 
 1. Make sure to commit all changes on your source control, and make sure your source control is sync to the repository. 
